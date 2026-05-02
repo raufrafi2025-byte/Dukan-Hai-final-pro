@@ -10,6 +10,9 @@ router.route('/riders')
   .get(protect, admin, getRiders)
   .post(protect, admin, registerRider);
 
+router.route('/rider-status')
+  .put(protect, updateRiderStatus);
+
 router.route('/:id/status')
   .put(protect, admin, updateUserStatus);
 

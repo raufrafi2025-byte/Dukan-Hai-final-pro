@@ -58,4 +58,21 @@ const updateUserStatus = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, getRiders, registerRider, updateUserStatus };
+// @desc    Update Rider Online Status
+// @route   PUT /api/users/rider-status
+const updateRiderStatus = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (user && user.role === 'rider') {
+      user.isOnline = req.body.isOnline;
+      await user.save();
+      res.json(user);
+    } else {
+      res.status(404).json({ message: 'Rider not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getUsers, getRiders, registerRider, updateUserStatus, updateRiderStatus };

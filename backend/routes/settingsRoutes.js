@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Settings = require('../models/settingsModel');
 
-// Get Settings
+// Get Settings - /api/settings
 router.get('/', async (req, res) => {
     try {
         let settings = await Settings.findOne();
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Update Settings (Admin Only)
+// Update Settings - /api/settings
 router.put('/', async (req, res) => {
     try {
         const { deliveryFee, minOrderForFreeDelivery } = req.body;
