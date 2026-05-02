@@ -36,13 +36,13 @@ try {
 // Serve static files from uploads folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/categories', require('./routes/categoryRoutes'));
-app.use('/api/products', require('./routes/productRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/upload', require('./routes/uploadRoutes'));
+// Routes (No /api prefix here because Vercel handles it via routePrefix)
+app.use('/auth', require('./routes/authRoutes'));
+app.use('/categories', require('./routes/categoryRoutes'));
+app.use('/products', require('./routes/productRoutes'));
+app.use('/orders', require('./routes/orderRoutes'));
+app.use('/users', require('./routes/userRoutes'));
+app.use('/upload', require('./routes/uploadRoutes'));
 
 // Root endpoint
 app.get('/', (req, res) => {
