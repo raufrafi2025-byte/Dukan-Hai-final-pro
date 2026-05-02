@@ -1,8 +1,7 @@
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 // @desc    Get all users
-// @route   GET /api/users
-// @access  Private/Admin
 const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
@@ -13,8 +12,6 @@ const getUsers = async (req, res) => {
 };
 
 // @desc    Get all riders
-// @route   GET /api/users/riders
-// @access  Private/Admin
 const getRiders = async (req, res) => {
   try {
     const riders = await User.find({ role: 'rider' });
@@ -24,9 +21,28 @@ const getRiders = async (req, res) => {
   }
 };
 
+// @desc    Register a new rider
+// @route   POST /api/users/riders
+const registerRider = async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+    const user = await User.create({
+      name,
+      email,
+      password,
+      role: 'rider'
+    });
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // @desc    Block or Unblock User
-// @route   PUT /api/users/:id/status
-// @access  Private/Admin
 const updateUserStatus = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -42,4 +58,4 @@ const updateUserStatus = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, getRiders, updateUserStatus };
+module.exports = { getUsers, getRiders, registerRider, updateUserStatus };

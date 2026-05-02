@@ -15,70 +15,69 @@ const AppNavbar = () => {
 
   return (
     <>
-      {/* Desktop & Tablet Top Navbar */}
-      <Navbar expand="lg" sticky="top" className="shadow-sm">
+      {/* Desktop Top Navbar */}
+      <Navbar expand="lg" sticky="top" className="shadow-sm bg-white py-3">
         <Container>
           <Navbar.Brand as={Link} to="/" className="outfit fw-900 fs-3 text-primary">
-            <i className="fas fa-shopping-basket me-2"></i>Dukan
+            <i className="fas fa-shopping-basket me-2"></i>Dukan Hai
           </Navbar.Brand>
           
-          <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 shadow-none mobile-hide" />
+          <Navbar.Toggle className="border-0 shadow-none mobile-hide" />
           
-          <Navbar.Collapse id="basic-navbar-nav" className="mobile-hide">
+          <Navbar.Collapse className="mobile-hide">
             <Nav className="ms-auto align-items-center">
-              <Nav.Link as={Link} to="/">Home</Nav.Link>
-              <Nav.Link as={Link} to="/products">Products</Nav.Link>
+              <Nav.Link as={Link} to="/" className="mx-2">Home</Nav.Link>
+              <Nav.Link as={Link} to="/products" className="mx-2">Products</Nav.Link>
               
-              <Nav.Link as={Link} to="/cart" className="position-relative">
+              <Nav.Link as={Link} to="/cart" className="position-relative mx-3">
                 <i className="fas fa-shopping-cart fs-5"></i>
                 <Badge pill bg="primary" className="position-absolute top-0 start-100 translate-middle" style={{fontSize: '0.6rem'}}>0</Badge>
               </Nav.Link>
 
               {user ? (
                 <>
-                  {user.role === 'admin' && <Nav.Link as={Link} to="/admin" className="text-warning fw-700">Admin</Nav.Link>}
-                  {user.role === 'rider' && <Nav.Link as={Link} to="/rider" className="text-success fw-700">Rider</Nav.Link>}
-                  <Nav.Link onClick={handleLogout} className="btn-primary text-white ms-lg-3 rounded-pill">Logout</Nav.Link>
+                  {user.role === 'admin' && <Nav.Link as={Link} to="/admin" className="text-warning fw-800">Admin</Nav.Link>}
+                  <Button variant="primary" onClick={handleLogout} className="rounded-pill px-4 ms-2">Logout</Button>
                 </>
               ) : (
-                <Nav.Link as={Link} to="/login" className="btn-primary text-white ms-lg-3 rounded-pill px-4">Login</Nav.Link>
+                <Nav.Link as={Link} to="/login" className="btn-primary text-white px-4 ms-2 rounded-pill">Login</Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
 
-      {/* Mobile Bottom Navigation (Foodpanda Style) */}
+      {/* Mobile Bottom Navigation (Photo Inspired) */}
       <div className="mobile-bottom-nav d-lg-none">
         <Link to="/" className={`bottom-nav-item ${location.pathname === '/' ? 'active' : ''}`}>
           <i className="fas fa-home"></i>
           <span>Home</span>
         </Link>
         <Link to="/products" className={`bottom-nav-item ${location.pathname === '/products' ? 'active' : ''}`}>
-          <i className="fas fa-search"></i>
-          <span>Search</span>
+          <i className="fas fa-th-large"></i>
+          <span>Categories</span>
         </Link>
-        <Link to="/cart" className={`bottom-nav-item ${location.pathname === '/cart' ? 'active' : ''}`}>
-          <div className="position-relative">
-            <i className="fas fa-shopping-cart"></i>
-            <Badge pill bg="primary" className="position-absolute top-0 start-100 translate-middle" style={{fontSize: '0.5rem'}}>0</Badge>
-          </div>
-          <span>Cart</span>
+
+        {/* Center Floating Action Button */}
+        <Link to="/cart" className="fab-button">
+          <i className="fas fa-shopping-bag"></i>
         </Link>
-        {user ? (
-          <Link to={user.role === 'admin' ? '/admin' : (user.role === 'rider' ? '/rider' : '/orders')} className={`bottom-nav-item ${['/admin', '/rider', '/orders'].includes(location.pathname) ? 'active' : ''}`}>
-            <i className="fas fa-user"></i>
-            <span>Account</span>
-          </Link>
-        ) : (
-          <Link to="/login" className={`bottom-nav-item ${location.pathname === '/login' ? 'active' : ''}`}>
-            <i className="fas fa-sign-in-alt"></i>
-            <span>Login</span>
-          </Link>
-        )}
+
+        <Link to="/orders" className={`bottom-nav-item ${location.pathname === '/orders' ? 'active' : ''}`}>
+          <i className="fas fa-box-open"></i>
+          <span>Orders</span>
+        </Link>
+        <Link to={user?.role === 'admin' ? '/admin' : '/login'} className={`bottom-nav-item ${location.pathname === '/admin' ? 'active' : ''}`}>
+          <i className="fas fa-user-circle"></i>
+          <span>{user?.role === 'admin' ? 'Admin' : 'Account'}</span>
+        </Link>
       </div>
     </>
   );
 };
+
+const Button = ({ children, onClick, className, variant }) => (
+    <button onClick={onClick} className={`btn btn-${variant} ${className}`}>{children}</button>
+);
 
 export default AppNavbar;

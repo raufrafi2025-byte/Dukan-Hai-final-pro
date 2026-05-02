@@ -43,6 +43,7 @@ app.use('/products', require('./routes/productRoutes'));
 app.use('/orders', require('./routes/orderRoutes'));
 app.use('/users', require('./routes/userRoutes'));
 app.use('/upload', require('./routes/uploadRoutes'));
+app.use('/api/settings', require('./routes/settingsRoutes'));
 
 // Root endpoint
 app.get('/', (req, res) => {
