@@ -23,11 +23,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Create uploads folder if it doesn't exist (only in development)
-if (process.env.NODE_ENV !== 'production') {
-    const uploadsDir = path.join(__dirname, 'uploads');
-    if (!fs.existsSync(uploadsDir)){
-        fs.mkdirSync(uploadsDir);
+try {
+    if (process.env.NODE_ENV !== 'production') {
+        const uploadsDir = path.join(__dirname, 'uploads');
+        if (!fs.existsSync(uploadsDir)){
+            fs.mkdirSync(uploadsDir);
+        }
     }
+} catch (err) {
+    console.log('Uploads folder error (expected on Vercel):', err.message);
 }
 // Serve static files from uploads folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
