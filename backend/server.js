@@ -22,10 +22,12 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Create uploads folder if it doesn't exist (for local image storage)
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)){
-    fs.mkdirSync(uploadsDir);
+// Create uploads folder if it doesn't exist (only in development)
+if (process.env.NODE_ENV !== 'production') {
+    const uploadsDir = path.join(__dirname, 'uploads');
+    if (!fs.existsSync(uploadsDir)){
+        fs.mkdirSync(uploadsDir);
+    }
 }
 // Serve static files from uploads folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
